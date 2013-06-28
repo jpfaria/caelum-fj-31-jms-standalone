@@ -8,7 +8,6 @@ import javax.jms.Queue;
 import javax.jms.QueueBrowser;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
@@ -38,6 +37,7 @@ public class FilaBrowser {
 
 		QueueBrowser qb = qs.createBrowser(q);
 
+		@SuppressWarnings("rawtypes")
 		Enumeration e = qb.getEnumeration();
 
 		while (e.hasMoreElements()) {
