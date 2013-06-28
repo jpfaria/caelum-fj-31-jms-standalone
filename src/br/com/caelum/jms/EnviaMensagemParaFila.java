@@ -1,13 +1,11 @@
 package br.com.caelum.jms;
 
 import java.util.Properties;
-import java.util.Scanner;
 
 import javax.jms.JMSException;
 import javax.jms.Queue;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueReceiver;
 import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.Session;
@@ -40,6 +38,8 @@ public class EnviaMensagemParaFila {
 		
 		QueueSender sender = qs.createSender(q);
 		sender.send(tm);
+		
+		System.out.println("Enviando mensagens");
 		
 		qc.close();
 

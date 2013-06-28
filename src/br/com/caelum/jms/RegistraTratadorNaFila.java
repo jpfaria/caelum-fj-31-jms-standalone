@@ -39,6 +39,7 @@ public class RegistraTratadorNaFila {
 		
 		qc.start();
 		
+		@SuppressWarnings("resource")
 		Scanner teclado = new Scanner(System.in);
 		
 		System.out.println("Esperando as mensagens da fila JMS. Aperte ENTER para parar");
