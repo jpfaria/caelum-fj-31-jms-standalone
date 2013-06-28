@@ -14,38 +14,40 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-
 public class RegistraTratadorNaFila {
 
 	public static void main(String[] args) throws NamingException, JMSException {
-		
+
 		Properties jndiProperties = new Properties();
 		jndiProperties.put(Context.SECURITY_PRINCIPAL, "jms");
 		jndiProperties.put(Context.SECURITY_CREDENTIALS, "caelum");
-		
+
 		InitialContext ic = new InitialContext(jndiProperties);
-		
-		QueueConnectionFactory qcf = (QueueConnectionFactory) ic.lookup("jms/RemoteConnectionFactory");
-		
+
+		QueueConnectionFactory qcf = (QueueConnectionFactory) ic
+				.lookup("jms/RemoteConnectionFactory");
+
 		QueueConnection qc = qcf.createQueueConnection("jms", "caelum");
-		
-		QueueSession qs = qc.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
-		
+
+		QueueSession qs = qc
+				.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+
 		Queue q = (Queue) ic.lookup("jms/queue/loja");
-		
+
 		QueueReceiver qr = qs.createReceiver(q);
-		
+
 		qr.setMessageListener(new TratadorDeMensagem());
-		
+
 		qc.start();
-		
+
 		@SuppressWarnings("resource")
 		Scanner teclado = new Scanner(System.in);
-		
-		System.out.println("Esperando as mensagens da fila JMS. Aperte ENTER para parar");
-		
+
+		System.out
+				.println("Esperando as mensagens da fila JMS. Aperte ENTER para parar");
+
 		teclado.nextLine();
-		
+
 		qc.close();
 
 	}

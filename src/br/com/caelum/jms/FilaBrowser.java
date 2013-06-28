@@ -1,9 +1,11 @@
 package br.com.caelum.jms;
 
+import java.util.Enumeration;
 import java.util.Properties;
 
 import javax.jms.JMSException;
 import javax.jms.Queue;
+import javax.jms.QueueBrowser;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
 import javax.jms.QueueSender;
@@ -14,7 +16,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-public class EnviaMensagemParaFila {
+public class FilaBrowser {
 
 	public static void main(String[] args) throws NamingException, JMSException {
 
@@ -32,15 +34,16 @@ public class EnviaMensagemParaFila {
 		QueueSession qs = qc
 				.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
 
-		TextMessage tm = qs.createTextMessage();
-		tm.setText("Mensagem de texto para um Queue");
-
 		Queue q = (Queue) ic.lookup("jms/queue/loja");
 
-		QueueSender sender = qs.createSender(q);
-		sender.send(tm);
+		QueueBrowser qb = qs.createBrowser(q);
 
-		System.out.println("Enviando mensagens");
+		Enumeration e = qb.getEnumeration();
+
+		while (e.hasMoreElements()) {
+			TextMessage tm = (TextMessage) e.nextElement();
+			System.out.println(tm.getText());
+		}
 
 		qc.close();
 
