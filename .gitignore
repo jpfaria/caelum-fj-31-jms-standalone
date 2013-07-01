@@ -3,4 +3,4 @@
 *.war
 *.ear
 build/**
-/build
+rebel.xml
